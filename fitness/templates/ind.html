@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Action Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <h1>Human Action Recognition</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" id="file-input" name="file">
+        <button type="submit">Upload & Predict</button>
+    </form>
+    <div id="result"></div>
+
+    <!-- Include TensorFlow.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    
+    <script>
+        async function loadModel() {
+            // Load your TensorFlow.js model
+            const model = await tf.loadLayersModel("{{ url_for('static', filename='web_application\fitness\LRCN_model\content\LRCN_model\model.json') }}");
+            return model;
+        }
+
+        async function predict() {
+            const model = await loadModel();
+
+            // Implement prediction logic here using the loaded model
+            // For demonstration purpose, let's log the model summary
+            model.summary();
+        }
+
+        // Add event listener to the form for uploading and predicting
+        document.getElementById("upload-form").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+            await predict(); // Call predict function when form is submitted
+        });
+    </script>
+</body>
+
+</html>
+
